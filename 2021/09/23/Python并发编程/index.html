@@ -19,30 +19,30 @@
   <meta name="description" content="简介视频课：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1bK411A7tV?p&#x3D;1 1.为什么要引入并发编程?引入并发编程，就是为了提升程序运行速度，减少用户等待时间，优化用户体验。 2.程序提速的方法2.1单线程串行执行模式：首先CPU计算处理，然后IO进行读写，CPU、IO、CPU…如此依次交替单线程串行执行。当CPU处理时，IO空闲等待；当IO读写时，CPU空闲等待。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:url" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="简介视频课：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1bK411A7tV?p&#x3D;1 1.为什么要引入并发编程?引入并发编程，就是为了提升程序运行速度，减少用户等待时间，优化用户体验。 2.程序提速的方法2.1单线程串行执行模式：首先CPU计算处理，然后IO进行读写，CPU、IO、CPU…如此依次交替单线程串行执行。当CPU处理时，IO空闲等待；当IO读写时，CPU空闲等待。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B1.png">
-<meta property="og:image" content="http://example.com/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B2.png">
-<meta property="og:image" content="http://example.com/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B3.png">
-<meta property="og:image" content="http://example.com/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B4.png">
-<meta property="og:image" content="http://example.com/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B5.png">
-<meta property="og:image" content="http://example.com/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B6.png">
-<meta property="og:image" content="http://example.com/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B7.png">
-<meta property="og:image" content="http://example.com/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B8.png">
-<meta property="og:image" content="http://example.com/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B9.png">
-<meta property="og:image" content="http://example.com/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B10.png">
-<meta property="og:image" content="http://example.com/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B11.png">
-<meta property="og:image" content="http://example.com/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B12.png">
-<meta property="og:image" content="http://example.com/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B13.png">
-<meta property="og:image" content="http://example.com/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B14.png">
-<meta property="og:image" content="http://example.com/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B15.png">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B1.png">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B2.png">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B3.png">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B4.png">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B5.png">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B6.png">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B7.png">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B8.png">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B9.png">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B10.png">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B11.png">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B12.png">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B13.png">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B14.png">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B15.png">
 <meta property="article:published_time" content="2021-09-23T03:06:18.584Z">
 <meta property="article:modified_time" content="2021-09-26T14:40:26.851Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B1.png">
+<meta name="twitter:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B1.png">
   
   <title>Hexo</title>
 
@@ -81,7 +81,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"www.xiaojiucai.cn","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
