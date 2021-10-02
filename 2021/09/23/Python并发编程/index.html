@@ -13,15 +13,15 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="">
+  <meta name="description" content="为什么要引入并发编程? 引入并发编程，就是为了提升程序运行速度，减少用户等待时间，优化用户体验。">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <meta name="description" content="简介视频课：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1bK411A7tV?p&#x3D;1 1.为什么要引入并发编程?引入并发编程，就是为了提升程序运行速度，减少用户等待时间，优化用户体验。 2.程序提速的方法2.1单线程串行执行模式：首先CPU计算处理，然后IO进行读写，CPU、IO、CPU…如此依次交替单线程串行执行。当CPU处理时，IO空闲等待；当IO读写时，CPU空闲等待。">
+  <meta name="description" content="为什么要引入并发编程? 引入并发编程，就是为了提升程序运行速度，减少用户等待时间，优化用户体验。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python并发编程">
 <meta property="og:url" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="简介视频课：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1bK411A7tV?p&#x3D;1 1.为什么要引入并发编程?引入并发编程，就是为了提升程序运行速度，减少用户等待时间，优化用户体验。 2.程序提速的方法2.1单线程串行执行模式：首先CPU计算处理，然后IO进行读写，CPU、IO、CPU…如此依次交替单线程串行执行。当CPU处理时，IO空闲等待；当IO读写时，CPU空闲等待。">
+<meta property="og:description" content="为什么要引入并发编程? 引入并发编程，就是为了提升程序运行速度，减少用户等待时间，优化用户体验。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/008i3skNly1gv0ysa60v8j61yy0tsgq302.jpg">
 <meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/008i3skNly1gv0ytdph7nj61a80oiq5l02.jpg">
@@ -39,7 +39,7 @@
 <meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/008i3skNly1gv0yxhd124j61r20gqq5m02.jpg">
 <meta property="og:image" content="http://www.xiaojiucai.cn/2021/09/23/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/008i3skNly1gv0yxnq4pgj61as0f8jsu02.jpg">
 <meta property="article:published_time" content="2021-09-23T06:19:25.000Z">
-<meta property="article:modified_time" content="2021-10-02T06:51:51.632Z">
+<meta property="article:modified_time" content="2021-10-02T07:40:32.615Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="线程与进程 并发编程">
 <meta name="twitter:card" content="summary_large_image">
@@ -82,7 +82,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"www.xiaojiucai.cn","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"www.xiaojiucai.cn","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":120,"cursorChar":"|","loop":true},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -253,7 +253,10 @@
             <h1 style="display: none">Python并发编程</h1>
             
             <div class="markdown-body">
-              <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>视频课：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1bK411A7tV?p=1">https://www.bilibili.com/video/BV1bK411A7tV?p=1</a></p>
+              <p>为什么要引入并发编程? 引入并发编程，就是为了提升程序运行速度，减少用户等待时间，优化用户体验。</p>
+<span id="more"></span>
+
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>视频课：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1bK411A7tV?p=1">https://www.bilibili.com/video/BV1bK411A7tV?p=1</a></p>
 <h3 id="1-为什么要引入并发编程"><a href="#1-为什么要引入并发编程" class="headerlink" title="1.为什么要引入并发编程?"></a>1.为什么要引入并发编程?</h3><p>引入并发编程，就是为了提升程序运行速度，减少用户等待时间，优化用户体验。</p>
 <h3 id="2-程序提速的方法"><a href="#2-程序提速的方法" class="headerlink" title="2.程序提速的方法"></a>2.程序提速的方法</h3><h4 id="2-1单线程串行"><a href="#2-1单线程串行" class="headerlink" title="2.1单线程串行"></a>2.1单线程串行</h4><p>执行模式：首先CPU计算处理，然后IO进行读写，CPU、IO、CPU…如此依次交替单线程串行执行。当CPU处理时，IO空闲等待；当IO读写时，CPU空闲等待。这种执行模式，浪费了空闲时间，使得执行程序的效率变低。</p>
 <p>粒度：一个CPU一条线，交替执行</p>
@@ -598,8 +601,42 @@
      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
   
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
 
   
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        辽ICP备2021008546号
+      </a>
+    </span>
+    
+  </div>
+
 
   
 </footer>
@@ -655,6 +692,8 @@
   
 
 
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 
