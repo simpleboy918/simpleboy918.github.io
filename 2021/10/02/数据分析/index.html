@@ -1,0 +1,534 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="数据分析是用适当的方法对收集的大量数据进行处理分析，帮助人们做出判断，以便采取适当的行动。">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <meta name="description" content="数据分析是用适当的方法对收集的大量数据进行处理分析，帮助人们做出判断，以便采取适当的行动。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据分析">
+<meta property="og:url" content="http://www.xiaojiucai.cn/2021/10/02/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="数据分析是用适当的方法对收集的大量数据进行处理分析，帮助人们做出判断，以便采取适当的行动。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/02/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%901.png">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/02/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%902.png">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/02/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%903.png">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/02/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%904.png">
+<meta property="article:published_time" content="2021-10-02T11:46:56.000Z">
+<meta property="article:modified_time" content="2021-10-02T11:50:21.912Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="matplotlib">
+<meta property="article:tag" content="numpy">
+<meta property="article:tag" content="pandas">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://www.xiaojiucai.cn/2021/10/02/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%901.png">
+  
+  <title>数据分析 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"www.xiaojiucai.cn","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":120,"cursorChar":"|","loop":true},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="数据分析">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-02 19:46" pubdate>
+        2021年10月2日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      9 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">数据分析</h1>
+            
+            <div class="markdown-body">
+              <p>数据分析是用适当的方法对收集的大量数据进行处理分析，帮助人们做出判断，以便采取适当的行动。</p>
+<span id="more"></span>
+
+<h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>视频课地址：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1hx411d7jb">https://www.bilibili.com/video/BV1hx411d7jb</a></p>
+<p>数据分析是用适当的方法对收集的大量数据进行处理分析，帮助人们做出判断，以便采取适当的行动。</p>
+<p>本节课主要分为以下4个部分：基础概念与环境、matplotlib、numpy、pandas</p>
+<h2 id="2-Matplotlib"><a href="#2-Matplotlib" class="headerlink" title="2. Matplotlib"></a>2. Matplotlib</h2><p>matplotlib库能够使数据可视化，更直观的呈现，使数据更加直观和说服力</p>
+<p>matplotlib是最流行的Python底层绘图库，主要做数据可视化图表，模仿MATLAB。</p>
+<p>axis轴指的是坐标轴，x轴或y轴。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> matplotlib <span class="hljs-keyword">import</span> pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    x = <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>,<span class="hljs-number">26</span>,<span class="hljs-number">2</span>)<br>    y = [<span class="hljs-number">15</span>,<span class="hljs-number">13</span>,<span class="hljs-number">14.5</span>,<span class="hljs-number">17</span>,<span class="hljs-number">20</span>,<span class="hljs-number">25</span>,<span class="hljs-number">26</span>,<span class="hljs-number">26</span>,<span class="hljs-number">24</span>,<span class="hljs-number">22</span>,<span class="hljs-number">18</span>,<span class="hljs-number">15</span>]<br>    <span class="hljs-comment">#传入x和y，通过plot绘制出折线图</span><br>    plt.plot(x,y)<br>    <span class="hljs-comment">#展示图像</span><br>    plt.show()<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/10/02/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%901.png" srcset="/img/loading.gif" lazyload alt="数据分析1"></p>
+<h3 id="2-1-设置图片样式"><a href="#2-1-设置图片样式" class="headerlink" title="2.1 设置图片样式"></a>2.1 设置图片样式</h3><h4 id="2-1-1-figure-函数"><a href="#2-1-1-figure-函数" class="headerlink" title="2.1.1 figure()函数"></a>2.1.1 figure()函数</h4><p>我们需要在<strong>绘图之前</strong>使用<code>figure</code>函数设置图片样式:</p>
+<p>figure(num=None, figsize=None, dpi=None, facecolor=None, edgecolor=None, frameon=True)</p>
+<p>参数说明：</p>
+<ul>
+<li>num：图像编号或名称，数字为编号 ，字符串为名称</li>
+<li>figsize：指定figure的宽和高，单位为英寸；</li>
+<li>dpi：指定绘图对象的分辨率，即每英寸多少个像素，缺省值为80（1英寸等于2.5cmA4纸是 21*30cm的纸张 ）</li>
+<li>facecolor：背景颜色</li>
+<li>edgecolor：边框颜色</li>
+<li>frameon：是否显示边框</li>
+</ul>
+<p>示例1：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> matplotlib <span class="hljs-keyword">import</span> pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-comment">#设置图片样式</span><br>    plt.figure(num=<span class="hljs-string">&quot;数据分析&quot;</span>,figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">4</span>),dpi=<span class="hljs-number">120</span>)<br>    x = <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>,<span class="hljs-number">26</span>,<span class="hljs-number">2</span>)<br>    y = [<span class="hljs-number">15</span>,<span class="hljs-number">13</span>,<span class="hljs-number">14.5</span>,<span class="hljs-number">17</span>,<span class="hljs-number">20</span>,<span class="hljs-number">25</span>,<span class="hljs-number">26</span>,<span class="hljs-number">26</span>,<span class="hljs-number">24</span>,<span class="hljs-number">22</span>,<span class="hljs-number">18</span>,<span class="hljs-number">15</span>]<br>    <span class="hljs-comment">#传入x和y，通过plot绘制出折线图</span><br>    plt.plot(x,y)<br>    <span class="hljs-comment">#展示图像</span><br>    plt.show()<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/10/02/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%902.png" srcset="/img/loading.gif" lazyload alt="数据分析2"></p>
+<h4 id="2-1-2-subplot-创建单个子图"><a href="#2-1-2-subplot-创建单个子图" class="headerlink" title="2.1.2 subplot()创建单个子图"></a>2.1.2 subplot()创建单个子图</h4><p>subplot()函数可以规划figure划分为n个子图，并且继承了figure的参数列表，但每条subplot命令只会创建一个子图，语法如下：</p>
+<p>plt.subplot(nrows, ncols, index, sharex,sharey,**kwargs)</p>
+<p>参数说明：</p>
+<ul>
+<li><p>nrows：subplot的行数，ncols：subplot的列数，index：subplot索引位置。</p>
+<p>举个列子：plt.subplot(2, 3, 5) 和 plt.subplot(235) 是一样的，但需要注意的是所有的数字不能超过10。</p>
+</li>
+<li><p>sharex：使用共同的x轴，sharey：使用共同的y轴。</p>
+</li>
+<li><p>**kwargs： projection : {None, ‘aitoff’, ‘hammer’, ‘lambert’, ‘mollweide’, ‘polar’, ‘rectilinear’, str}, optional</p>
+<p>可选参数：可以选择子图的类型，如选择polar，就是一个极点图。默认是none就是一个线形图。</p>
+</li>
+</ul>
+<p>示例2：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    plt.figure(num=<span class="hljs-string">&quot;数据分析3&quot;</span>)<br>    x = np.linspace(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>)<br>    y1 = np.sin(x)<br>    <br>    y2 = np.cos(x)<br><br>    ax1 = plt.subplot(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>, frameon = <span class="hljs-literal">False</span>) <span class="hljs-comment"># 两行一列，位置是1的子图</span><br>    plt.plot(x, y1, <span class="hljs-string">&#x27;b--&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;y1&#x27;</span>)<br>    ax2 = plt.subplot(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>, projection = <span class="hljs-string">&#x27;polar&#x27;</span>)<br>    plt.plot(x, y2, <span class="hljs-string">&#x27;r--&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;y2&#x27;</span>)<br>    plt.xlabel(<span class="hljs-string">&#x27;x&#x27;</span>)<br>    plt.subplot(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, sharex = ax1, facecolor = <span class="hljs-string">&#x27;red&#x27;</span>)<br>    plt.plot(x, y2, <span class="hljs-string">&#x27;r--&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;y2&#x27;</span>)<br><br>    plt.show()<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2021/10/02/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%903.png" srcset="/img/loading.gif" lazyload alt="数据分析3"></p>
+<h4 id="2-1-3-subplots-创建多个子图"><a href="#2-1-3-subplots-创建多个子图" class="headerlink" title="2.1.3 subplots()创建多个子图"></a>2.1.3 subplots()创建多个子图</h4><p>plt.subplots() 和 plt.subplot() 功能作用非常相似，<code>plt.subplots()</code>是一个函数，返回一个包含figure和axes对象的元组。语法如下：</p>
+<p>subplots(nrows=1, ncols=1, sharex=False, sharey=False, squeeze=True,  **fig_kw)</p>
+<p>参数说明：</p>
+<ul>
+<li>nrows, ncols : int, optional, default: 1<br>可以手动输出几行几列，默认是1行1列</li>
+<li>sharex, sharey : bool or {‘none’, ‘all’, ‘row’, ‘col’}, default: False<br>可以选择共享x轴或者y轴：</li>
+</ul>
+<p>示例3：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br><br>    x = np.arange(<span class="hljs-number">0</span>, <span class="hljs-number">100</span>)<br>    <span class="hljs-comment">#划分子图</span><br>    fig,axes=plt.subplots(<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,num=<span class="hljs-string">&quot;数据分析4&quot;</span>)<br>    ax1=axes[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]<br>    ax2=axes[<span class="hljs-number">0</span>,<span class="hljs-number">1</span>]<br>    ax3=axes[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>]<br>    ax4=axes[<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]<br><br>    <span class="hljs-comment">#作图1</span><br>    ax1.plot(x, x)<br>    <span class="hljs-comment">#作图2</span><br>    ax2.plot(x, -x)<br>     <span class="hljs-comment">#作图3</span><br>    ax3.plot(x, x ** <span class="hljs-number">2</span>)<br>    ax3.grid(color=<span class="hljs-string">&#x27;r&#x27;</span>, linestyle=<span class="hljs-string">&#x27;--&#x27;</span>, linewidth=<span class="hljs-number">1</span>,alpha=<span class="hljs-number">0.3</span>)<br>    <span class="hljs-comment">#作图4</span><br>    ax4.plot(x, np.log(x))<br><br>    plt.show()<br></code></pre></td></tr></table></figure>
+
+<h3 id><a href="#" class="headerlink" title></a><img src="/2021/10/02/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%904.png" srcset="/img/loading.gif" lazyload alt="数据分析4"></h3><h3 id="2-2-保存到本地"><a href="#2-2-保存到本地" class="headerlink" title="2.2 保存到本地"></a>2.2 保存到本地</h3><h3 id="2-3-添加描述信息"><a href="#2-3-添加描述信息" class="headerlink" title="2.3 添加描述信息"></a>2.3 添加描述信息</h3><h3 id="2-4-设置坐标轴单位间距"><a href="#2-4-设置坐标轴单位间距" class="headerlink" title="2.4 设置坐标轴单位间距"></a>2.4 设置坐标轴单位间距</h3><h3 id="2-5-设置线条样式"><a href="#2-5-设置线条样式" class="headerlink" title="2.5 设置线条样式"></a>2.5 设置线条样式</h3><h3 id="2-6-标记特殊点"><a href="#2-6-标记特殊点" class="headerlink" title="2.6 标记特殊点"></a>2.6 标记特殊点</h3><h3 id="2-7-添加图片水印"><a href="#2-7-添加图片水印" class="headerlink" title="2.7 添加图片水印"></a>2.7 添加图片水印</h3>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/matplotlib/">matplotlib</a>
+                    
+                      <a class="hover-with-bg" href="/tags/numpy/">numpy</a>
+                    
+                      <a class="hover-with-bg" href="/tags/pandas/">pandas</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/09/26/%E5%8D%8F%E7%A8%8B%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">
+                        <span class="hidden-mobile">协程异步编程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        辽ICP备2021008546号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
