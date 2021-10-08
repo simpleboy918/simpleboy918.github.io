@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://www.xiaojiucai.cn/2019/10/02/Web%E5%89%8D%E7%AB%AF/008i3skNly1gv16sv0m4vj61rm0iqq4y02.jpg">
 <meta property="og:image" content="http://www.xiaojiucai.cn/2019/10/02/Web%E5%89%8D%E7%AB%AF/008i3skNly1gv16u6txfoj61q40sawiw02.jpg">
 <meta property="article:published_time" content="2019-10-02T07:02:52.000Z">
-<meta property="article:modified_time" content="2021-10-03T06:52:18.359Z">
+<meta property="article:modified_time" content="2021-10-08T15:07:37.739Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="CSS">
 <meta property="article:tag" content="JavaScript">
@@ -200,7 +200,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6.7k 字
+      8.4k 字
     </span>
   
 
@@ -209,7 +209,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      21 分钟
+      26 分钟
     </span>
   
 
@@ -242,7 +242,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：4 天前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -581,6 +581,77 @@
 <p>n行m列快捷键：<code>table&gt;tr*n&gt;td*m</code></p>
 </li>
 </ol>
+<p>表头单元格标签</p>
+<p>一般表头单元格位于表格的第一行或者第一列，表头单元格的文本内容加粗居中显示。</p>
+<p><code>&lt;th&gt;</code>标签表示HTML表格的表头部分（即table head的缩写）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">table</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>姓名<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>性别<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>年龄<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span><br>  <br>  <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>顾钧<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>男<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>13<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>  <br>  <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>乐乐<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>女<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>32<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>表格属性</p>
+<p>表格标签的属性不常用，后面CSS课程会讲到，这里只做了解。下列标签属性要写在表格标签<table>里面</table></p>
+<table>
+<thead>
+<tr>
+<th align="center">属性名</th>
+<th align="center">属性值</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">align</td>
+<td align="center">left、right、center</td>
+<td align="center">规定表格相对于周围元素的对齐方式</td>
+</tr>
+<tr>
+<td align="center">border</td>
+<td align="center">1、””</td>
+<td align="center">1表示有边框，””表示无边框，默认为 “”</td>
+</tr>
+<tr>
+<td align="center">cellpadding</td>
+<td align="center">像素值</td>
+<td align="center">单元边沿与其内容之间的空白，默认为1像素</td>
+</tr>
+<tr>
+<td align="center">cellspacing</td>
+<td align="center">像素值</td>
+<td align="center">单元格之间的空白，默认为2像素</td>
+</tr>
+<tr>
+<td align="center">width</td>
+<td align="center">像素值或百分比</td>
+<td align="center">规定表格的宽度</td>
+</tr>
+<tr>
+<td align="center">height</td>
+<td align="center">像素值或百分比</td>
+<td align="center">规定表格的宽度</td>
+</tr>
+</tbody></table>
+<p>表格结构标签</p>
+<p>如果我们遇到表格太长的情况，可以将表格分为<strong>表格头部</strong>和<strong>表格主体</strong>两大部分。在表格标签中，分别用：<code>&lt;thead&gt;</code>表示表格头部区域，<code>&lt;tbody&gt;</code>表示表格主体区域。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">table</span>&gt;</span><br>  <br>  <span class="hljs-tag">&lt;<span class="hljs-name">thead</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>姓名<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>性别<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>年龄<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">thead</span>&gt;</span><br>  <br>  <span class="hljs-tag">&lt;<span class="hljs-name">tbody</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>顾钧<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>男<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>13<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>  <br>  <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>乐乐<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>女<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>32<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">tbody</span>&gt;</span><br>  <br><span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>合并单元格</p>
+<p>在制作简历等情况下，我们需要合并单元格，使表格更加规整美观。</p>
+<p>合并单元格的方式：</p>
+<ul>
+<li><p>跨行合并：rowspan=”合并单元格的个数”</p>
+</li>
+<li><p>跨列合并：colspan=”合并单元格的个数”</p>
+</li>
+<li><p>目标单元格：用来书写合并代码。</p>
+<p>​            跨行：以最上侧的单元格为目标单元格，书写合并代码</p>
+<p>​            跨列：以最左侧的单元格为目标单元格，书写合并代码</p>
+</li>
+</ul>
+<p>合并单元格的步骤：</p>
+<ol>
+<li>确定合并单元格的方式：跨行 or 跨列</li>
+<li>找到目标单元格，书写合并代码</li>
+<li>删除多余的单元格</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">border</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">cellpadding</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">cellspacing</span>=<span class="hljs-string">&quot;0&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">td</span> <span class="hljs-attr">colspan</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">td</span> <span class="hljs-attr">rowspan</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
 
             </div>
             <hr>
