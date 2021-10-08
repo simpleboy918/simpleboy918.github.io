@@ -64,7 +64,7 @@
 <meta property="og:image" content="http://www.xiaojiucai.cn/2021/05/07/%E7%88%AC%E8%99%AB/008i3skNly1gv6prvw9t7j60k80ciaam02.jpg">
 <meta property="og:image" content="http://www.xiaojiucai.cn/2021/05/07/%E7%88%AC%E8%99%AB/008i3skNly1gv6zonz4qwj61440a275n02.jpg">
 <meta property="article:published_time" content="2021-05-07T04:19:25.000Z">
-<meta property="article:modified_time" content="2021-10-07T11:56:33.735Z">
+<meta property="article:modified_time" content="2021-10-08T17:30:17.836Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="爬虫">
 <meta name="twitter:card" content="summary_large_image">
@@ -237,7 +237,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      52k 字
+      55k 字
     </span>
   
 
@@ -246,7 +246,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      162 分钟
+      171 分钟
     </span>
   
 
@@ -279,7 +279,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 天前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -737,7 +737,7 @@
 </li>
 <li><p>注册个人账户：</p>
 <ol>
-<li>账号：<a href="mailto:&#x33;&#52;&#52;&#55;&#x37;&#49;&#53;&#x39;&#x39;&#64;&#x71;&#x71;&#x2e;&#99;&#111;&#x6d;">&#x33;&#52;&#52;&#55;&#x37;&#49;&#53;&#x39;&#x39;&#64;&#x71;&#x71;&#x2e;&#99;&#111;&#x6d;</a></li>
+<li>账号：<a href="mailto:&#51;&#52;&#52;&#x37;&#x37;&#49;&#x35;&#x39;&#57;&#x40;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#x6d;">&#51;&#52;&#52;&#x37;&#x37;&#49;&#x35;&#x39;&#57;&#x40;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#x6d;</a></li>
 <li>密码：mypassword0918</li>
 <li> 图片验证码类型：4位英文和阿拉伯数字，即<code>1902类型</code></li>
 </ol>
@@ -967,7 +967,7 @@
 <li><code>管道、调度器</code>：好的，现在就做！</li>
 </ol>
 <p>注意！只有当<code>调度器</code>中不存在任何request了，整个程序才会停止，（也就是说，对于下载失败的URL，Scrapy也会重新下载。）</p>
-<h3 id="制作-Scrapy-爬虫的步骤："><a href="#制作-Scrapy-爬虫的步骤：" class="headerlink" title="制作 Scrapy 爬虫的步骤："></a>制作 Scrapy 爬虫的步骤：</h3><ul>
+<h3 id="制作-Scrapy-爬虫的步骤"><a href="#制作-Scrapy-爬虫的步骤" class="headerlink" title="制作 Scrapy 爬虫的步骤"></a>制作 Scrapy 爬虫的步骤</h3><ul>
 <li>新建项目 (scrapy startproject xxx)：新建一个新的爬虫项目</li>
 <li>明确目标 （编写items.py）：明确你想要抓取的目标</li>
 <li>制作爬虫 （spiders/xxspider.py）：制作爬虫开始爬取网页</li>
@@ -995,7 +995,45 @@
 <p>但是报错日志也会被隐藏，我们希望除了错误日志，其他日志不显示，需要在setting文件中添加如下字段：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#显示指定类型的日志信息</span><br>LOG_LEVEL = <span class="hljs-string">&#x27;ERROR&#x27;</span><br></code></pre></td></tr></table></figure>
 
+<h3 id="Scrapy数据解析"><a href="#Scrapy数据解析" class="headerlink" title="Scrapy数据解析"></a>Scrapy数据解析</h3><p>在scrapy中也有Selectors选择器，有3个定位网页标签的基本方法：</p>
+<ol>
+<li>xpath()：传入xpath表达式，返回该表达式所对应的所有节点的selector list列表数据类型，该数据类型的数据存储在列表元素的”data”字段对应的内容。</li>
+<li>css()：传入CSS表达式，返回该表达式所对应的所有节点的selector list列表数据类型，语法同 BeautifulSoup4。</li>
+<li>re()： 根据传入的正则表达式对数据进行提取，返回Unicode字符串list列表数据类型。</li>
+</ol>
+<p>最常用的标签定位方法依然是<code>xpath()</code>方法，返回<code>selector list列表数据类型</code>，同时需要用到<code>extract()</code>方法提取出<strong>selector list列表数据类型中的数据</strong>。即：</p>
+<p>extract()：将selector list列表数据类型中的<strong>数据提取出来</strong>后，<strong>返回字符串数据类型</strong>。</p>
+<h4 id="实战案例-7"><a href="#实战案例-7" class="headerlink" title="实战案例"></a>实战案例</h4><ol>
+<li>需求：爬取糗事百科的文本笑话的<strong>作者</strong>和<strong>内容</strong></li>
+<li>网址：<a target="_blank" rel="noopener" href="https://www.qiushibaike.com/text/">https://www.qiushibaike.com/text/</a></li>
+<li>说明：</li>
+</ol>
+<p>第一步：创建项目</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">scrapy startproject qiubaiPro<br></code></pre></td></tr></table></figure>
 
+<p>第二步：修改setting文件</p>
+<p>在qiubaiPro项目的spiders下setting文件中的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Crawl responsibly by identifying yourself (and your website) on the user-agent</span><br><span class="hljs-comment">#USER_AGENT = &#x27;qiubaiPro (+http://www.yourdomain.com)&#x27;</span><br><br><span class="hljs-comment"># Obey robots.txt rules</span><br>ROBOTSTXT_OBEY = <span class="hljs-literal">True</span><br></code></pre></td></tr></table></figure>
+
+<p>修改为</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Crawl responsibly by identifying yourself (and your website) on the user-agent</span><br>USER_AGENT = <span class="hljs-string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15&#x27;</span><br><br><span class="hljs-comment"># Obey robots.txt rules</span><br>ROBOTSTXT_OBEY = <span class="hljs-literal">False</span><br><br><span class="hljs-comment">#只显示指定类型的日志信息（额外添加）</span><br>LOG_LEVEL = <span class="hljs-string">&#x27;ERROR&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>第三步：在qiubaiPro项目下，创建爬虫qiubai文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">cd qiubaiPro<br>scrapy genspider qiubai www.xxx.com<br></code></pre></td></tr></table></figure>
+
+<p>第四步：修改qiubai.py文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-number">1.</span>注释（或者删除）allowed_domains语句<br><span class="hljs-number">2.</span>将start_urls语句修改为<br>    start_urls = [<span class="hljs-string">&#x27;https://www.qiushibaike.com/text/&#x27;</span>]<br><span class="hljs-number">3.</span>编写<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">parse</span>(<span class="hljs-params">self,response</span>)函数</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">parse</span>(<span class="hljs-params">self, response</span>):</span><br>    div_list = response.xpath(<span class="hljs-string">&#x27;//*[@id=&quot;content&quot;]/div/div[2]/div&#x27;</span>)<br>    <span class="hljs-comment">#print(div_list)</span><br>    <span class="hljs-keyword">for</span> div <span class="hljs-keyword">in</span> div_list:<br>        author = div.xpath(<span class="hljs-string">&#x27;./div[1]/a[2]/h2/text()&#x27;</span>).extract()[<span class="hljs-number">0</span>]<br>        <span class="hljs-comment">#文本内容在网页中，被多个标签分段，xpath解析时，会根据标签节点返回多个列表，同时自然有多个&quot;data&quot;</span><br>        <span class="hljs-comment">#extract()在提取&quot;data&quot;返回列表时，会得到多个元素</span><br>        content = div.xpath(<span class="hljs-string">&#x27;./a[1]/div/span//text()&#x27;</span>)<br>        <span class="hljs-built_in">print</span>(author,content)<br>        <span class="hljs-keyword">break</span><br></code></pre></td></tr></table></figure>
+
+<p>文本内容在网页中，被多个标签分段，xpath解析时，会根据标签节点返回多个列表，同时自然有多个”data”，extract()在提取”data”返回列表时，会得到多个元素。使用命令行<code>scrapy crawl qiubai</code>执行爬虫时，得到如下结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">狐小乔<br> [&lt;Selector xpath=<span class="hljs-string">&#x27;./a[1]/div/span//text()&#x27;</span> data=<span class="hljs-string">&#x27;\n\n\n表哥表嫂一直想生二胎，侄儿不同意。&#x27;</span>&gt;, &lt;Selector xpath=<span class="hljs-string">&#x27;./a[1]/div/span//text()&#x27;</span> data=<span class="hljs-string">&#x27;表哥说：“等有了弟弟或者妹妹，or xpath=&#x27;</span>./a[<span class="hljs-number">1</span>]/div/span//text()<span class="hljs-string">&#x27; data=&#x27;</span>小家伙想了想说：“那他得先交保.护.费才行！”<span class="hljs-string">&#x27;&gt;, &lt;Selector xpath=&#x27;</span>./a[<span class="hljs-number">1</span>]/div/span//text()<span class="hljs-string">&#x27; data=&#x27;</span>表嫂：“将来我和你爸老了，不用你一个xpath=<span class="hljs-string">&#x27;./a[1]/div/span//text()&#x27;</span> data=<span class="hljs-string">&#x27;小侄歪着头想了想说：“那你们生个双胞胎吧，他们两个一人一半，我就不用出了，...&#x27;</span>&gt;, &lt;Selector xpath=<span class="hljs-string">&#x27;./a[1]/div/span//text()&#x27;</span> data=<span class="hljs-string">&#x27;我和我的小伙伴当时就惊呆了……\n\n&#x27;</span>&gt;]<br>(venv) lee@leedeMacBook-Pro qiubaiPro % <br><br></code></pre></td></tr></table></figure>
+
+<p>因此，需要将<code>content = div.xpath(&#39;./a[1]/div/span//text()&#39;)</code>加上<code>extract()</code>方法，提取出所有的”data”文本数据，返回多个元素的列表，再使用列表元素拼接函数<code>join()</code>得到完整文本。对应修改<code>def parse(self,response)</code>函数如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">parse</span>(<span class="hljs-params">self, response</span>):</span><br>    div_list = response.xpath(<span class="hljs-string">&#x27;//*[@id=&quot;content&quot;]/div/div[2]/div&#x27;</span>)<br>    <span class="hljs-keyword">for</span> div <span class="hljs-keyword">in</span> div_list:<br>        author = div.xpath(<span class="hljs-string">&#x27;./div[1]/a[2]/h2/text()&#x27;</span>).extract()[<span class="hljs-number">0</span>]<br>        <span class="hljs-comment">#文本内容在网页中，被多个标签分段，xpath解析时，会根据标签节点返回多个列表，同时自然有多个&quot;data&quot;</span><br>        <span class="hljs-comment">#extract()在提取&quot;data&quot;返回列表时，会得到多个元素</span><br>        content = div.xpath(<span class="hljs-string">&#x27;./a[1]/div/span//text()&#x27;</span>).extract()<br>        content = <span class="hljs-string">&quot;&quot;</span>.join(content)<br>        <span class="hljs-built_in">print</span>(author,content)<br></code></pre></td></tr></table></figure>
+
+<p>第四步：执行爬虫文件qiubai</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">scrapy crawl qiubai<br></code></pre></td></tr></table></figure>
 
 
 
