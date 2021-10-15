@@ -19,22 +19,23 @@
   <meta name="description" content="本系列文章属于强化学习领域，参考图片均保留水印来源，资料均来源于网络，在文末参考链接中已经注明。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="强化学习（一）马尔可夫链">
-<meta property="og:url" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:url" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE/index.html">
 <meta property="og:site_name" content="小韭菜">
 <meta property="og:description" content="本系列文章属于强化学习领域，参考图片均保留水印来源，资料均来源于网络，在文末参考链接中已经注明。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/008i3skNly1gvg7z3buh4j60eg0ivmy302.jpg">
-<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/008i3skNly1gvg81pr934j60n704idg002.jpg">
-<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/008i3skNly1gvg83gi8pbj60ap0d10ta02.jpg">
-<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/008i3skNly1gvg8ogmeo0j60n704idg002.jpg">
-<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/008i3skNly1gvg9pso5u1j60i203b74d02.jpg">
-<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/008i3skNly1gvg9x8xxdoj30o409g74q.jpg">
-<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/008i3skNly1gvg9ys7tzij60hi0fm0ty02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE/008i3skNly1gvg7z3buh4j60eg0ivmy302.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE/008i3skNly1gvg81pr934j60n704idg002.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE/008i3skNly1gvg83gi8pbj60ap0d10ta02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE/008i3skNly1gvg8ogmeo0j60n704idg002.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE/008i3skNly1gvg9pso5u1j60i203b74d02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE/008i3skNly1gvg9x8xxdoj30o409g74q.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE/008i3skNly1gvg9ys7tzij60hi0fm0ty02.jpg">
 <meta property="article:published_time" content="2021-10-15T11:14:30.000Z">
 <meta property="article:modified_time" content="2021-10-15T12:41:35.143Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="马尔可夫链">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/008i3skNly1gvg7z3buh4j60eg0ivmy302.jpg">
+<meta name="twitter:image" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE/008i3skNly1gvg7z3buh4j60eg0ivmy302.jpg">
   
   <title>强化学习（一）马尔可夫链 - 小韭菜</title>
 
@@ -253,18 +254,18 @@
               <p>本系列文章属于强化学习领域，参考图片均保留水印来源，资料均来源于网络，在文末参考链接中已经注明。</p>
 <span id="more"></span>
 
-<h2 id="强化学习的学习路线"><a href="#强化学习的学习路线" class="headerlink" title="强化学习的学习路线"></a>强化学习的学习路线</h2><p><img src="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/008i3skNly1gvg7z3buh4j60eg0ivmy302.jpg" srcset="/img/loading.gif" lazyload></p>
+<h2 id="强化学习的学习路线"><a href="#强化学习的学习路线" class="headerlink" title="强化学习的学习路线"></a>强化学习的学习路线</h2><p><img src="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE/008i3skNly1gvg7z3buh4j60eg0ivmy302.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>线路图分为两部分</p>
 <ul>
 <li>第一部分是基础概念；<br>首先我们要弄清楚强化学习到底是干嘛的？它围绕怎样一个问题，而后面所有的所有，都是围绕这个问题的解决方案。</li>
 <li>第二部分是深度强化学习的算法；<br>他们是怎么一直发展的，脉络是怎样的？</li>
 </ul>
 <h2 id="马尔可夫链"><a href="#马尔可夫链" class="headerlink" title="马尔可夫链"></a>马尔可夫链</h2><p>我们先来看马尔可夫链，它长这样子：</p>
-<p><img src="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/008i3skNly1gvg81pr934j60n704idg002.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE/008i3skNly1gvg81pr934j60n704idg002.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>马尔可夫链描述的是智能体和环境进行互动的过程。简单说：智能体在一个状态(用S代表)下，选择了某个动作(用S代表)，进入了另外一个状态，并获得奖励(用R代表)的过程。</p>
 <p>所以，我们希望通过让智能体在环境里获取<strong>最多的奖励</strong>，把智能体训练成我们想要的样子——就是能完成某些特定的任务。</p>
 <p>所以，我们马上遇到第一个坑：马尔可夫链，其实应该叫马尔可夫树吧！</p>
-<p><img src="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/008i3skNly1gvg83gi8pbj60ap0d10ta02.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE/008i3skNly1gvg83gi8pbj60ap0d10ta02.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>我们看到的链，是因为我们从现在往后看，但如果往前看，是充满不确定性的。</p>
 <p>这里的不确定性包括两方面： </p>
 <ul>
@@ -280,7 +281,7 @@
 <p>但我们应该怎样才能让智能体学会技能呢？</p>
 <p>和我们研究其他的问题一样，我们首先需要把问题抽象称为模型。我们才能在这个模型进行实验和探索后，再把结果运用到实际当中去。</p>
 <p><strong>马尔可夫链</strong>，就是对现实世界抽象的一个模型。因而马尔可夫链被广泛使用在各个领域，当然也包括我们讨论的强化学习领域。本强化学习专栏中提到的几乎所有的算法，都是基于马尔可夫链这个模型。我们必须了解问题是什么，才能更好解决问题。</p>
-<p><img src="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/008i3skNly1gvg8ogmeo0j60n704idg002.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE/008i3skNly1gvg8ogmeo0j60n704idg002.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>在马尔可夫链中，有三个重要的元素：S，A，R。我们分别来看一下，他们代表的是什么。然后大家就会明白，为什么马尔科夫链是一个很好很常用的模型。</p>
 <h2 id="S（state）状态"><a href="#S（state）状态" class="headerlink" title="S（state）状态"></a><strong>S（state）状态</strong></h2><p>S（state）状态，在图中用白色圈圈表示。</p>
 <p><strong>状态</strong>就是智能体<strong>观察</strong>到的当前环境的<strong>部分或者全部特征</strong>。</p>
@@ -306,7 +307,7 @@
 <p>又例如：无人驾驶汽车如果成功到达目标地点，那么可以获得奖励；但如果闯红灯，那么就会被扣除大量的奖励作为惩罚。如果无人驾驶汽车希望获得更多的分数，那么就必须在遵守交通规则的情况下，成功到达目标地点。</p>
 <p>敲黑板：奖励的设定是<strong>主观</strong>的，也就是说我们为了智能体更好地学习工作，自己定的。所以大家可以看到，很多时候我们会对奖励进行一定的修正，这也是加速智能体学习的方法之一。</p>
 <p>现在我们来总结一下马尔科夫链，其中也包含了强化学习的一般步骤：</p>
-<p><img src="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/008i3skNly1gvg9pso5u1j60i203b74d02.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE/008i3skNly1gvg9pso5u1j60i203b74d02.jpg" srcset="/img/loading.gif" lazyload></p>
 <ol>
 <li>智能体在环境中，观察到状态(S)；</li>
 <li>状态(S)被输入到智能体，智能体经过计算，选择动作(A); </li>
@@ -319,12 +320,12 @@
 <p>这就像我们从家里到公司上班，中间有若干种上班的方式。现在你从家里出门，走过了两个路口，到了公交车站。 这时候往后看，从家到公交车站这一路，只能有一条路径。虽然你可以走其他路到公交车站，但这是你走过的路，已经确定下来了，所以路径只有一条；但如果往前看，从公交车坐车到公司，还有很多种方式到达，向前展开的是各种不确定性。</p>
 <p>理解这一点很重要，这是理解强化学习理论的基础。为了更好理解，我们举个例子：</p>
 <p>假设现在我们来玩这样一个游戏。这个游戏是简化版的大富翁，我们只考虑我们当前所处位置，也就是状态。智能体移动的时候，它可以选择投掷1-3个骰子，根据骰子点数的总和向前移动。</p>
-<p><img src="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/008i3skNly1gvg9x8xxdoj30o409g74q.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE/008i3skNly1gvg9x8xxdoj30o409g74q.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>现在，智能体从格子A掷骰子，并移动到格子B。其实经历了两次不确定性。</p>
 <p>第一次，是“选择”的过程。智能体主动选择骰子的个数。掷骰子的个数不同，到达格子B的概率也不同。所以“选择”会影响到下一个状态。这种不同动作之间的选择，我们称为智能体的<strong>策略</strong>。策略我们一般用<strong>Pi</strong>表示。我们的任务就是找到一个策略，能够获得最多的奖励。</p>
 <p>第二次的不确定性，是环境的随机性，这是智能体无法控制的。在这个例子里就是骰子的随机性。注意，并不是所有环境都有随机性，有些环境是很确定的（例如把以上所有骰子每一面都涂成1点），但马尔可夫链允许我们有不确定性的存在。</p>
 <p>从上面的例子我们知道，这种不确定性来自两个方面：1.智能体的行动选择（策略）。2.环境的不确定性。</p>
-<p><img src="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/008i3skNly1gvg9ys7tzij60hi0fm0ty02.jpg" srcset="/img/loading.gif" lazyload alt="马尔可夫树"></p>
+<p><img src="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE/008i3skNly1gvg9ys7tzij60hi0fm0ty02.jpg" srcset="/img/loading.gif" lazyload alt="马尔可夫树"></p>
 <p>所以，如果以后有人闯红灯，然后还大条道理地说：闯红灯又不一定会死，等绿灯也有可能死呀！ 这时候你要做的，除了离SB远点以外，心里还要清楚：闯红灯和等绿灯是我的选择，但不同选择后面的环境随机性给出的概率是不一样的。虽然我不能控制环境的随机性，但我能控制我的选择，让我避免高风险的低回报的情况出现。 类似地，总会有人说不读书也能成功的话。想想背后的逻辑，你将会更清楚自己的选择。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
 <li>马尔可夫链是用来描述智能体和环境互动的过程。</li>
@@ -348,6 +349,20 @@
             <div>
               <div class="post-metas mb-3">
                 
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE/">马尔可夫链</a>
+                    
+                  </div>
                 
               </div>
               
@@ -362,9 +377,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89V%E5%80%BC%E5%92%8CQ%E5%80%BC/">
+                      <a href="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">强化学习（二）V值和Q值</span>
+                        <span class="hidden-mobile">强化学习（一）马尔可夫链</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -372,8 +387,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE/">
-                        <span class="hidden-mobile">强化学习（一）马尔可夫链</span>
+                      <a href="/2021/10/11/%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/">
+                        <span class="hidden-mobile">文件的使用</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
