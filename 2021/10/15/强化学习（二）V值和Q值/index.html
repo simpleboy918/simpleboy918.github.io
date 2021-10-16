@@ -40,7 +40,7 @@
 <meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89V%E5%80%BC%E5%92%8CQ%E5%80%BC/008i3skNly1gvh72suh4mj60i1084glw02.jpg">
 <meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89V%E5%80%BC%E5%92%8CQ%E5%80%BC/008i3skNly1gvh6d07ervj60nb0bf0te02.jpg">
 <meta property="article:published_time" content="2021-10-15T12:46:26.000Z">
-<meta property="article:modified_time" content="2021-10-16T07:47:26.426Z">
+<meta property="article:modified_time" content="2021-10-16T07:56:55.376Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="V值和Q值">
 <meta name="twitter:card" content="summary_large_image">
@@ -255,7 +255,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：6 分钟前
+                  本文最后更新于：4 小时前
                 
               </p>
             
@@ -364,7 +364,7 @@
 <p>正式的数学公式如下：</p>
 <p><img src="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89V%E5%80%BC%E5%92%8CQ%E5%80%BC/008i3skNly1gvh72suh4mj60i1084glw02.jpg" srcset="/img/loading.gif" lazyload></p>
 <p><strong>折扣率</strong> 在强化学习中，有某些参数是人为<strong>主观</strong>制定。这些参数并不能推导，但在实际应用中却能解决问题，所以我们称这些参数为<strong>超参数</strong>，而折扣率就是一个超参数。 与金融产品说的贴现率是类似的。我们计算Q值，目的就是把未来很多步奖励，折算到当前节点。但未来n步的奖励的10点奖励，与当前的10点奖励是否完全等价呢？未必。所以我们人为地给未来的奖励一定的折扣，例如：0.9,0.8，然后在计算到当前的Q值。</p>
-<h3 id="从V到V：已知V-s-求解V-s’"><a href="#从V到V：已知V-s-求解V-s’" class="headerlink" title="从V到V：已知V(s) ,求解V(s’)"></a>从V到V：已知V(s) ,求解V(s’)</h3><p>现在我们知道如何从V到Q，从Q到V了。但实际应用中，我们更多会从V到V。</p>
+<h3 id="从V到V：已知V-s-求解V-s’"><a href="#从V到V：已知V-s-求解V-s’" class="headerlink" title="从V到V：已知V(s) ,求解V(s’)"></a>从V到V：已知V(s) ,求解V(s’)</h3><p>现在我们知道如何从V到Q，从Q到V了。但<strong>实际应用中，我们更多会从V到V</strong>。</p>
 <p>但其实从V到V也是很简单的。把公式代进去就可以了。</p>
 <p><img src="/2021/10/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89V%E5%80%BC%E5%92%8CQ%E5%80%BC/008i3skNly1gvh6d07ervj60nb0bf0te02.jpg" srcset="/img/loading.gif" lazyload></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
