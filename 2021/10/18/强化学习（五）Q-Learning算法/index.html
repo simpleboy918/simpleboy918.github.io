@@ -1,0 +1,720 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="本节内容将会开始讲解Q-Learning算法，通过算法理论和代码实践相结合的方式学习。">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <meta name="description" content="本节内容将会开始讲解Q-Learning算法，通过算法理论和代码实践相结合的方式学习。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强化学习（五）Q-Learning算法">
+<meta property="og:url" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="小韭菜">
+<meta property="og:description" content="本节内容将会开始讲解Q-Learning算法，通过算法理论和代码实践相结合的方式学习。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvjpsy5y4vj60qi06ijrq02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvjpu7gltfj60hz08zt9002.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvjqe2egddj60se0b2gm902.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvjqfpzv2cj30u00uwmyt.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvjqk5oj53j60no082aam02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvjqwd9sc3j60kq03qt8v02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvjr1vs93zj60ge0e4dgi02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvjr6g9ainj30l6043dg2.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkdn7pn81j60ko02c0sq02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkdo6gzm6j60vc0dhdgv02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkds85hnbj60di0cd0te02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkdxc1zfdj61390u00uo02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkee3nql7j60lr0d4q3c02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkm7d8qadj60dc0fxmxo02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvknyn5pnqj604k05g74802.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkon7dybpj60wp0u00vx02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkonjxyz2j60vc0dhdgv02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkopjuygwj60kf04r74v02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkoqmui1dj60ko02c0sq02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkoukrf0wj61400lxgry02.jpg">
+<meta property="article:published_time" content="2021-10-18T11:50:24.000Z">
+<meta property="article:modified_time" content="2021-10-19T13:41:42.635Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Q-Learning">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://www.xiaojiucai.cn/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvjpsy5y4vj60qi06ijrq02.jpg">
+  
+  <title>强化学习（五）Q-Learning算法 - 小韭菜</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"www.xiaojiucai.cn","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":120,"cursorChar":"|","loop":true},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小韭菜</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                时光轴
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="强化学习（五）Q-Learning算法">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-18 19:50" pubdate>
+        2021年10月18日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      9.6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      30 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">强化学习（五）Q-Learning算法</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：1 小时前
+                
+              </p>
+            
+            <div class="markdown-body">
+              <p>本节内容将会开始讲解Q-Learning算法，通过算法理论和代码实践相结合的方式学习。</p>
+<span id="more"></span>
+
+<h2 id="Q-Learning"><a href="#Q-Learning" class="headerlink" title="Q-Learning"></a>Q-Learning</h2><p>我们说过如何用TD(0)预估状态价值。</p>
+<p>注：TD(0)即1-TD：一步一回头进行更新。</p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvjpsy5y4vj60qi06ijrq02.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>图解：</p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvjpu7gltfj60hz08zt9002.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>但大家可能会说，TD能够用在V值，那能不能用在计算Q值上呢？答案是肯定的。</p>
+<h2 id="TD之于Q值估算"><a href="#TD之于Q值估算" class="headerlink" title="TD之于Q值估算"></a>TD之于Q值估算</h2><p>我们现在用上TD的思路。 我们在St，智能体根据策略Pi，选择动作At，进入S(t+1)状态，并获得奖励R。 如果你之前对V和Q的理解足够深，那么不难理解下面这张图。</p>
+<p>V(St+1)的意义是，在St+1到最终状态获得的奖励期望值。 Q(St,At)的意义是，在Q(St,At)到最终状态获得的奖励期望值。 所以我们可以把V(St+1)看成是下山途中的一个路牌，这个路牌告诉我们下山到底还有多远，然后加上R这一段路，就知道Q(St,At)离山脚有多长的路。</p>
+<h2 id="麻烦来了"><a href="#麻烦来了" class="headerlink" title="麻烦来了"></a>麻烦来了</h2><p>但在实际操作的时候，会有一个问题。 在这里我们要估算两个东西，一个是V值，一个是Q值。</p>
+<p>人们想出的办法就是，用下一个动作的Q值，代替V值。</p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvjqe2egddj60se0b2gm902.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>因为从状态St+1到动作At+1之间没有奖励反馈，所以我们直接用At+1的Q价值，代替St+1的V价值。 这样不就是可以了吗? </p>
+<p><strong>有问题！有大问题！马尔可夫链并不是链，而是树！！！</strong></p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvjqfpzv2cj30u00uwmyt.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>在St+1下，可能有很多动作At+1。不同动作的Q值自然是不同的。 所以Q(St+1,At+1)并不能等价于V(St+1)。</p>
+<p>嘿嘿，虽然不相等，但不代表不能用其中一个来代表V(St+1)。人们认为有个可能的动作产生的Q值能够一定程度代表V(St+1)。</p>
+<ol>
+<li>在<strong>相同策略</strong>下产生的动作At+1，这就是<strong>SARSA</strong>。</li>
+<li>选择<strong>能够产生最大Q值</strong>的动作At+1，这就是<strong>Q-Learning</strong>。</li>
+</ol>
+<h2 id="SARSA"><a href="#SARSA" class="headerlink" title="SARSA"></a>SARSA</h2><p>为什么SARSA用<strong>相同策略</strong>下产生的动作At+1是合理的。答案很简单，它管用。 其实在强化学习，虽然涉及很多数学，但它并不是严谨科学，它更像是工业，只要实际操作管用就行。</p>
+<p>现在我们回到SARSA：</p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvjqk5oj53j60no082aam02.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>其实SARSA和我们上一篇说的TD估算V值几乎一模一样，只不过我们挪了一下，从V改成Q了。</p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvjqwd9sc3j60kq03qt8v02.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>注意，这里的At+1是在<strong>同一策略</strong>产生的。也就是说，St选At的策略和St+1选At+1是同一个策略。<strong>这也是SARSA和Qlearning的唯一区别。</strong></p>
+<h2 id="Qlearning"><a href="#Qlearning" class="headerlink" title="Qlearning"></a>Qlearning</h2><p>Qlearning能够产生最大Q值的动作At+1的Q值作为V(St+1)的替代。</p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvjr1vs93zj60ge0e4dgi02.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>道理其实也很简单：因为我们需要寻着的是能获得<strong>最多奖励</strong>的动作，Q值就代表我们能够获得今后奖励的期望值。所以我们只会选择Q值最大的，也只有最大Q值能够代表V值。</p>
+<p>所以大家可以对比一下Qleanring和SARSA，两者的差别仅仅在Qlearning中</p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvjr6g9ainj30l6043dg2.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>就出现了鼎鼎大名的Qlearning算法。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Qlearning和SARSA是多么鼎鼎大名，但直觉上理解还是很简单的。</p>
+<p>现在我们来总结一下整个思路： </p>
+<ol>
+<li>Qlearning和SARSA都是基于TD(0)的。不过在之前的介绍中，我们用TD(0)估算状态的V值。而Qlearning和SARSA估算的是动作的Q值。</li>
+<li>Qlearning和SARSA的核心原理，是用下一个状态St+1的V值，估算Q值。</li>
+<li>既要估算Q值，又要估算V值会显得比较麻烦。所以我们用下一状态下的某一个动作的Q值，来代表St+1的V值。<ol>
+<li>Qlearning和SARSA唯一的不同，就是用什么动作的Q值替代St+1的V值。 SARSA 选择的是在St同一个策略产生的动作。</li>
+<li>Qlearning 选择的是能够产生最大的Q值的动作。</li>
+</ol>
+</li>
+</ol>
+<h2 id="Qlearning算法流程"><a href="#Qlearning算法流程" class="headerlink" title="Qlearning算法流程"></a>Qlearning算法流程</h2><p>我们现在重新整理下，Qleanring的更新流程。 我们将会在任意的state出发 </p>
+<ol>
+<li><p>我们将会用<strong>noisy-greedy的策略</strong>选定动作A</p>
+</li>
+<li><p>在完成动作后，我们将会进入新状态St+1； </p>
+</li>
+<li><p>检查St+1中所有动作，看看哪个动作的Q值最大；</p>
+</li>
+<li><p>用以下的公式更新当前动作A的Q值；</p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkdn7pn81j60ko02c0sq02.jpg" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>继续从s’出发，进行下一步更新 1-6步我们作为一个EP，进行N个EP的迭代。</p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkdo6gzm6j60vc0dhdgv02.jpg" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ol>
+<p>在具体实现的时候，有两个方式需要注意：</p>
+<h3 id="Q-table"><a href="#Q-table" class="headerlink" title="Q-table"></a>Q-table</h3><p>Q-table(Q表格)：Qlearning算法非常适合用表格的方式进行存储和更新。所以一般我们会在开始时候，先创建一个Q-tabel，也就是Q值表。这个表纵坐标是状态，横坐标是在这个状态下的动作。</p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkds85hnbj60di0cd0te02.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>我们会初始化这个表的值为0。我们的任务就是，通过算法更新，把各个状态下的动作的Q值，填到上面去。</p>
+<h3 id="noisy-greedy"><a href="#noisy-greedy" class="headerlink" title="noisy-greedy"></a>noisy-greedy</h3><p>我们解说过，在选择动作的时候，理论上每次都会使用当前状态下，Q值最大的动作。这样的选择方式，我们称为“贪婪”(greedy)。</p>
+<p>因为我们只选择Q值最大的动作，所以有一些动作没被更新过没有被选择的过的动作，将更新不到。Q值也永远为0。</p>
+<p>举个例子：</p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkdxc1zfdj61390u00uo02.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>假设某次智能体经过路径(途中的红色线路)，根据Qlearning算法更新公式，我们计算得到某动作Q值为3。 </p>
+<p>由于其他动作还没执行过，因此他们保持初始值(一般为0)。按照贪婪算法，下一次智能体来到S的时候，会选择Q值最大的动作，也就是Q=3。于是红色路径再次被执行，Q值被更新。然后再一次，智能体仍然只会选红色线路。 </p>
+<p>但事实上，Q值最大的可能是其他的动作，但其他动作没有Q值，只是因为没有被“探索”出来。事实上我们会<strong>希望智能体在开始的时候更多随机行走去探索，而后面更多按照Q值去走动</strong>。</p>
+<p>在我们的示例代码中，用了一个noisy-greedy的方法：</p>
+<p>在每次选择动作的时候，就给我们要选择的动作叠加一个噪音。所谓噪音，就是在原来的值上增加一个随机值。</p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkee3nql7j60lr0d4q3c02.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>图中为某状态下，4个可选动作。 其中蓝色部分代表计算出来的Q值，也就是在Qtable上的值。 橙色部分是噪音，通过随机算法随机出来，每一次都会不同。</p>
+<p>大家可以看到，原来蓝色部分Q值最大的是<strong>动作4</strong>(0.3)。但在加上噪音之后，Q值最大的是<strong>动作2</strong>(0.2+0.5)。所以最终智能体会选择<strong>动作2</strong>。</p>
+<p>所以，我们可以通过噪音来“干扰”智能体的选择，达到让智能体有更多探索的机会。</p>
+<p>【敲黑板！！！】 注意！这些噪音只是在选择的时候，临时加上，每次都随机的。只干扰了当前选择，并不会影响真正的Q值。</p>
+<p>当我们认为智能体对环境的了解已经足够充分，我们就可以慢慢减少噪音的大小。</p>
+<p>在实做中，我们只需要在我们每次游戏后，将会减少产生噪音的方差，这样虽然仍然有干扰，但这种干扰将会逐渐减少。直到相对于真正的Q值没有影响的程度。最终，agent将会按照自己的策略选择动作。</p>
+<p>其实解决随机探索的问题还有好多种方法，也会在后续的文章中介绍给大家。</p>
+<h2 id="Qlearning示例代码分析"><a href="#Qlearning示例代码分析" class="headerlink" title="Qlearning示例代码分析"></a>Qlearning示例代码分析</h2><p>在示例代码中，我们的环境是Gym的FrozenLake-v0。关于Gym和FrozenLake-v0的介绍，有需要的同学可以看一下。</p>
+<h3 id="GYM"><a href="#GYM" class="headerlink" title="GYM"></a>GYM</h3><p>在Qlearning开始前，我们先了解一下GYM。 其实和GYM相关的教程已经很多，这里只说最简单。并且希望让大家了解一遍了解GYM，一边对智能体和环境互动有更深入的了解。</p>
+<p>GYM是openAI出的一个模拟环境。除了简单的环境，还有atari游戏。我们日后会尝试把学到的算法，运用到atari游戏中：<a target="_blank" rel="noopener" href="https://gym.openai.com/">https://gym.openai.com/</a></p>
+<p>GYM环境对马尔可夫链的抽象非常高。我们可以从下图看到智能体和环境的互动，结合我们之前说的用法，将会对环境有更深刻的理解。</p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkm7d8qadj60dc0fxmxo02.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>其实我们可以理解，环境就是老师，负责出题和打分。智能体就是学生，负责做题。智能体的目标就是在老师的题海战术中不断学习，最终获得最多的分数。</p>
+<p>我们从这个角度来看一下： </p>
+<ol>
+<li>老师首先出题，学生听题。环境初始化一个初始的状态S，智能体把S输入到自己算法。</li>
+<li>学生做题。智能体把S输入之后，经过算法进行一番计算。最终会输出action。</li>
+<li>老师改题。老师对学生做的题进行评价。也就是说对这个action进行评价，评价最终输出奖励。奖励越高，刚刚智能体的输出评价就越高。同时，老师会发下一题，就是下一个状态S。</li>
+</ol>
+<p>虽然老子说：天地不仁以万物为刍狗。 但如果用老师-学生去理解环境和智能体的互动，是不是更简单了呢？</p>
+<p>GYM对环境已经高度抽象，我们只需要执行对应的代码，就能让智能体和环境进行互动。减少了我们很多我们自己写环境的代码。我们以后工作一定会把算法用在新的环境，而新环境一般需要自己写的，这时候，参考GYM的这套框架就可以了。</p>
+<h3 id="GYM的基本用法"><a href="#GYM的基本用法" class="headerlink" title="GYM的基本用法"></a>GYM的基本用法</h3><p>如果大家不会安装GYM环境，可以上网找一下，一般只需要pip一下即可。 gym的用法其实也挺简单的。基本需要用到这几个函数。</p>
+<ol>
+<li><p><strong>导入</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> gym<br></code></pre></td></tr></table></figure></li>
+<li><p><strong>创建环境</strong>：env = gym.make(‘环境名’)。 其中环境名可以在这找到，还有相关的说明。一般我们会顺手进行初始化。env = gym.make(‘环境名’).unwrapped</p>
+</li>
+<li><p><strong>获取状态特征数和动作空间</strong> N_S = env.observation_space N_A = env.action_space 还记得我们之前说的吗？状态特征，就是我们能观察到的环境。 例如自动驾驶汽车，交通灯算是一个状态特征，这个特征有不同的值，红灯/绿灯。距离最近的行人是一个特征，例如距离这个行人多远。自动驾驶汽车能观察的环境特征越多，感知能力越强，对抉择就越有帮助。所以不一般来说，工程师都会想不断利用各种算法和硬件，从真实环境提取环境特征。 GYM环境对于初学者方便的地方是，对于每个实验，环境都直接提供了环境特征。不需要我们自己去提取了。 如果是连续的状态空间和动作空间，我们可以获取到边界值 s_low_bound = env.observation_space.low s_high_bound = env.observation_space.high 在这里大家可以理解为，老师出题的格式，和学生答案的格式。</p>
+</li>
+<li><p><strong>初始化环境，并返回一个初始状态</strong>。我们一般这样写。 s = env.reset() 老师出的第一道题！</p>
+</li>
+<li><p>学生开始做题了。这里的f其实就是我们的算法。 现在我们就有了一个初始状态s。 假设有一个函数f（s），输入s，获得可以选择出动作a。我们的目标就是找出一个f，能让我们在这个环境中获取最多的reward。 a = f（s）</p>
+</li>
+<li><p>学生提交答案，老师改卷了。把分返回给学生。并且开始出下一题。 我们选取a后。代入step函数，会根据环境配置，会返回4个值：<strong>进入的下一个状态</strong>，<strong>当前获得的奖励r</strong>。除此之外，还有一个<strong>标志位done，表示是否进入最终状态</strong>。另外还有一个**包含信息的值(info)**，但一般我们用不到。可以先忽略。 s_,r,done,info = env.step(a)</p>
+</li>
+<li><p>我们把s = s_.并把步骤4-6组成一个循环，那么游戏就能自动进行下去了。</p>
+</li>
+<li><p>render。如果有render可以把游戏给渲染出来。</p>
+</li>
+</ol>
+<h2 id="FrozenLake代码实例"><a href="#FrozenLake代码实例" class="headerlink" title="FrozenLake代码实例"></a>FrozenLake代码实例</h2><p>FrozenLake是我们学习Qlearning要用到的环境。我们来熟悉一下。</p>
+<p>我们索性地把环境渲染出来。长这样子。</p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvknyn5pnqj604k05g74802.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>S：start，出发点。 G：Goal，终点。 F：可以走的路，但偶尔你会因为滑到，自动往前滑一格。 H：hole：是陷阱。</p>
+<p>FrozenLake-v0是一个4*4的网络格子，每个格子可以是起始块，目标块、冻结块或者危险块。 我们的目标是让agent学习从开始块如何行动到目标块上，而不是移动到危险块上。 agent可以选择向上、向下、向左或者向右移动，同时游戏中还有可能吹来一阵风，将agent吹到任意的方块上。</p>
+<p>我们的任务就是让我们的agent，从起点，走到终点。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&quot;&quot;&quot;Q-Table learning algorithm.</span><br><span class="hljs-string">Non deep learning - TD Learning, Off-Policy, e-Greedy Exploration</span><br><span class="hljs-string">Q(S, A) &lt;- Q(S, A) + alpha * (R + lambda * Q(newS, newA) - Q(S, A))</span><br><span class="hljs-string">See David Silver RL Tutorial Lecture 5 - Q-Learning for more details.</span><br><span class="hljs-string">For Q-Network, see tutorial_frozenlake_q_network.py</span><br><span class="hljs-string">EN: https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-0-q-learning-with-tables-and-neural-networks-d195264329d0#.5m3361vlw</span><br><span class="hljs-string">CN: https://zhuanlan.zhihu.com/p/25710327</span><br><span class="hljs-string">tensorflow==2.0.00</span><br><span class="hljs-string">tensorlayer==2.0.0</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br><br><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> gym<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-comment"># FrozenLake-v0是一个4*4的网络格子，每个格子可以是起始块，目标块、冻结块或者危险块。</span><br><span class="hljs-comment"># 我们的目标是让智能体学习如何从开始块如何行动到目标块上，而不是移动到危险块上。</span><br><span class="hljs-comment"># 智能体可以选择向上、向下、向左或者向右移动，同时游戏中还有可能吹来一阵风，将智能体吹到任意的方块上。</span><br>env = gym.make(<span class="hljs-string">&#x27;FrozenLake-v0&#x27;</span>)<br><span class="hljs-comment">#有的是v1版本</span><br><span class="hljs-comment">#env = gym.make(&#x27;FrozenLake-v1&#x27;)</span><br><br><span class="hljs-comment"># 设置是否渲染，展示游戏画面。</span><br>render = <span class="hljs-literal">False</span><br>running_reward = <span class="hljs-literal">None</span><br><br><span class="hljs-comment">##================= Implement Q-Table learning algorithm =====================##</span><br><br><span class="hljs-comment">## 建立Q表格，并初始化为全0数组。形状为：[状态空间，动作空间]</span><br>Q = np.zeros([env.observation_space.n, env.action_space.n])<br><br><span class="hljs-comment">## 设置更新的超参数</span><br><span class="hljs-comment">## Q[s, a] = Q[s, a] + lr * (r + lambd * np.max(Q[s1, :]) - Q[s, a])</span><br>lr = <span class="hljs-number">.85</span>  <span class="hljs-comment"># Qleaning的学习率。alpha, if use value function approximation, we can ignore it</span><br>lambd = <span class="hljs-number">.99</span>  <span class="hljs-comment"># 折扣率 decay factor</span><br>num_episodes = <span class="hljs-number">10000</span>  <span class="hljs-comment"># 迭代次数，也就是开始10000次游戏</span><br>rList = []  <span class="hljs-comment"># 用于记录每次迭代的总奖励，这样我们就可以知道智能体是否有进步了。rewards for each episode</span><br><br><span class="hljs-comment">##=================开始游戏=====================##</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_episodes):<br><br>    <span class="hljs-comment">## 重置环境初始状态</span><br>    episode_time = time.time()  <span class="hljs-comment"># 用于记录运行时间，我们可以通过比较运行时间判断算法效率。</span><br>    s = env.reset()  <span class="hljs-comment"># 重置初始状态。</span><br>    rAll = <span class="hljs-number">0</span>  <span class="hljs-comment"># 用于记录这次游戏的总奖励，这里先初始化为0</span><br><br>    <span class="hljs-comment">## 开始Qlearning算法</span><br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">99</span>):<br>        <span class="hljs-keyword">if</span> render: env.render()  <span class="hljs-comment"># 判断是否渲染环境。</span><br><br>        <span class="hljs-comment">## [敲黑板]</span><br>        <span class="hljs-comment">## 从Q表格中，找到当前状态S最大Q值，并在Q值上加上噪音。</span><br>        <span class="hljs-comment">## 然后找到最大的Q+噪音的动作</span><br>        a = np.argmax(Q[s, :] + np.random.randn(<span class="hljs-number">1</span>, env.action_space.n) * (<span class="hljs-number">1.</span> / (i + <span class="hljs-number">1</span>)))<br><br>        <span class="hljs-comment">## 与环境互动，把动作放到env.step()函数，并返回下一状态S1，奖励，done，info</span><br>        <span class="hljs-comment"># s1:下一个环境的状态                   对象</span><br>        <span class="hljs-comment"># 奖励:上一个动作获得的奖励              浮点</span><br>        <span class="hljs-comment"># done:是否进入for循环，再次重置环境     布尔</span><br>        <span class="hljs-comment"># info:对调试有用的诊断信息             字典</span><br>        s1, r, d, _ = env.step(a)<br><br>        <span class="hljs-comment">## 更新Q表格</span><br>        Q[s, a] = Q[s, a] + lr * (r + lambd * np.<span class="hljs-built_in">max</span>(Q[s1, :]) - Q[s, a])<br><br>        rAll += r  <span class="hljs-comment"># rAll累加当前的收获。</span><br>        s = s1  <span class="hljs-comment"># 把下一状态赋值给s，准备开始下一步。</span><br>        <span class="hljs-keyword">if</span> d == <span class="hljs-literal">True</span>:  <span class="hljs-comment"># 如果已经到达最终状态，就跳出for循环。(开始下一次迭代)</span><br>            <span class="hljs-keyword">break</span><br><br>    <span class="hljs-comment">##=================更新结束，打印结果=====================##</span><br>    <span class="hljs-comment"># 每次的总收获都放到rlist。可以通过打印看看算法效率。</span><br>    rList.append(rAll)<br>    <span class="hljs-comment"># 每一次迭代获得的总收获rAll,会以0.01的份额加入到running_reward。(原代码这里rAll用了r，个人认为是rAll更合适)</span><br>    running_reward = rAll <span class="hljs-keyword">if</span> running_reward <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> running_reward * <span class="hljs-number">0.99</span> + rAll * <span class="hljs-number">0.01</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Episode [%d/%d] sum reward: %f running reward: %f took: %.5fs &quot;</span> % \<br>          (i, num_episodes, rAll, running_reward, time.time() - episode_time))<br><br><span class="hljs-comment"># 最后打印Q表格，看看Q表格的样子吧。</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Final Q-Table Values:\n %s&quot;</span> % Q)<br></code></pre></td></tr></table></figure>
+
+<h3 id="建立Qtable"><a href="#建立Qtable" class="headerlink" title="建立Qtable"></a>建立Qtable</h3><p>格子世界的状态空间有限，动作空间有限，因此很适合用Qlearning算法解决。</p>
+<p>我们可以做这样的一个表格，我们称为Q值表，如下图所示：当我们预估到相应的Q值后，就直接填上这个表。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">## Initialize table with all zeros</span><br>Q = np.zeros([env.observation_space.n, env.action_space.n])<br></code></pre></td></tr></table></figure>
+
+<p>np.zeros() 函数，用于生成一个全0矩阵。生成的形状由输入的参数决定。 示例代码中： env.observation_space.n，表示这个环境中状态的数量。 env.action_space.n，表示动作空间的数量。</p>
+<p>生成出的Q-table我们可视化一下，长这样子：</p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkon7dybpj60wp0u00vx02.jpg" srcset="/img/loading.gif" lazyload></p>
+<h3 id="算法主体"><a href="#算法主体" class="headerlink" title="算法主体"></a>算法主体</h3><p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkonjxyz2j60vc0dhdgv02.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>为了能更清晰地看出算法的主体，我把示例代码的一些细枝末节先删掉，算法主体大约就是一下几行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_episodes): <br>    s = env.reset()   <span class="hljs-comment">#重置开始状态。</span><br></code></pre></td></tr></table></figure>
+
+<p>num_episodes，表示进行游戏的次数。每次游戏开始，我们会用env.reset()函数把智能体设置在任意状态出发，一直走到最终状态。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">99</span>):  <br>        ....<br>        ....<br>        <span class="hljs-keyword">if</span> d ==<span class="hljs-literal">True</span>: <span class="hljs-comment">#d for done。</span><br>            <span class="hljs-keyword">break</span><br></code></pre></td></tr></table></figure>
+
+<p>我们设定进行一次游戏，最多进行99步。<br>这个和环境状态多少有关系，当前环境状态16个，在99步前，一般都能到达最终状态。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">a = np.argmax(Q[s, :] + np.random.randn(<span class="hljs-number">1</span>, env.action_space.n) * (<span class="hljs-number">1.</span> / (i + <span class="hljs-number">1</span>)))<br></code></pre></td></tr></table></figure>
+
+<p>我们之前说过noisy-greedy的原理，现在我们怎样用代码实现。就是上面这一行，也是Qlearning的重点。</p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkopjuygwj60kf04r74v02.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>这一行代码我们可以切开几个步骤来看一下： </p>
+<ul>
+<li>首先，Q[s, :] 我们看一下table表的s列，就是我们当前的状态对应各个动作的Q值。 </li>
+<li>其次，np.random.randn(1, env.action_space.n) 就是我们制造出来的噪音，我们希望噪音随着迭代的进行，将会越来越小。 因此我们乘以 (1. / (i + 1))。当i越来越大的时候，噪音就越来越小了。 </li>
+<li>最后，我们通过np.argmax()获得最大Q值对应的列号，也就是对应的动作。这里要注意，argmax找出最大值后，并不是返回<strong>最大值</strong>，而是返回<strong>最大值的列号</strong>，也就是<strong>动作</strong>。同学在这里要注意理解，我们需要的是动作A，而不是Q值。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">s1, r, d, _ = env.step(a)<br></code></pre></td></tr></table></figure>
+
+<p>env.step() 我们把动作传入到环境中，环境会给我们返回4个返回值。 </p>
+<ul>
+<li>new_state: 示例代码用s1表示。这个表示我们执行动作后，新的状态。 </li>
+<li>reward: 示例代码中用r表示，执行动作a后，获得的收获</li>
+<li>done：一个标志位，表示这个是否最终状态。</li>
+<li>_ : 其实是info，但我们一般用不到这个值；因此我们把它先忽略。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">Q[s, a] = Q[s, a] + lr  (r + lambd  np.<span class="hljs-built_in">max</span>(Q[s1, :]) - Q[s, a])<br></code></pre></td></tr></table></figure>
+
+<p>我们用newstate的Q值，更新我们现在状态的Q值。我们对应更新公式，就很容易理解了。 注意比较：这里np.max和之前np.argmax函数的区别在于，np.max是返回最大值。而np.argmax返回时最大的行数或者列数。 </p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkoqmui1dj60ko02c0sq02.jpg" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">s = s1<br><span class="hljs-keyword">if</span> d ==<span class="hljs-literal">True</span>:<br>    <span class="hljs-keyword">break</span><br></code></pre></td></tr></table></figure>
+
+<p>最后，我们更新Q值的任务已经完成，把游戏进行下去。把下一个状态s1赋值给s，重新开始新一步，和新一步的更新。</p>
+<p>但在开始之前，我们检查一下，下一个状态是否就是终止状态了，如果是，这一次游戏就算是完成，开始一次迭代。</p>
+<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p>训练过程 </p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs dns">Episode [<span class="hljs-number">0/10000</span>] sum reward: <span class="hljs-number">0.000000</span> running reward: <span class="hljs-number">0.000000</span> took: <span class="hljs-number">0</span>.<span class="hljs-number">00118</span>s <br>Episode [<span class="hljs-number">1/10000</span>] sum reward: <span class="hljs-number">0.000000</span> running reward: <span class="hljs-number">0.000000</span> took: <span class="hljs-number">0</span>.<span class="hljs-number">00093</span>s <br>Episode [<span class="hljs-number">2/10000</span>] sum reward: <span class="hljs-number">0.000000</span> running reward: <span class="hljs-number">0.000000</span> took: <span class="hljs-number">0</span>.<span class="hljs-number">00011</span>s <br>Episode [<span class="hljs-number">3/10000</span>] sum reward: <span class="hljs-number">0.000000</span> running reward: <span class="hljs-number">0.000000</span> took: <span class="hljs-number">0</span>.<span class="hljs-number">00020</span>s <br>Episode [<span class="hljs-number">4/10000</span>] sum reward: <span class="hljs-number">0.000000</span> running reward: <span class="hljs-number">0.000000</span> took: <span class="hljs-number">0</span>.<span class="hljs-number">00102</span>s <br>Episode [<span class="hljs-number">5/10000</span>] sum reward: <span class="hljs-number">0.000000</span> running reward: <span class="hljs-number">0.000000</span> took: <span class="hljs-number">0</span>.<span class="hljs-number">00049</span>s <br>Episode [<span class="hljs-number">6/10000</span>] sum reward: <span class="hljs-number">0.000000</span> running reward: <span class="hljs-number">0.000000</span> took: <span class="hljs-number">0</span>.<span class="hljs-number">00095</span>s <br>Episode [<span class="hljs-number">7/10000</span>] sum reward: <span class="hljs-number">0.000000</span> running reward: <span class="hljs-number">0.000000</span> took: <span class="hljs-number">0</span>.<span class="hljs-number">00032</span>s <br>Episode [<span class="hljs-number">8/10000</span>] sum reward: <span class="hljs-number">0.000000</span> running reward: <span class="hljs-number">0.000000</span> took: <span class="hljs-number">0</span>.<span class="hljs-number">00011</span>s <br></code></pre></td></tr></table></figure>
+
+<p>我们把Qtable打印出来。</p>
+<p><img src="/2021/10/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89Q-Learning%E7%AE%97%E6%B3%95/008i3skNly1gvkoukrf0wj61400lxgry02.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>我们从结果上再理解一次Qtable。因为这和后面DQN等算法有很大关系，希望大家能能够理解。</p>
+<ul>
+<li>Qtable的每一行代表一个状态。</li>
+<li>在每个状态下，智能体可以做4个动作，每个动作Q值分别对应是1,2,3,4列的数值。</li>
+<li>智能体选择动作的方式是： </li>
+</ul>
+<ol>
+<li>找到代表当前状态S的行数 </li>
+<li>在该行中找出最大的值，也就是最大Q值 </li>
+<li>返回这个Q值的列号，这个列号就是动作</li>
+</ol>
+<h2 id="Qlearning总结"><a href="#Qlearning总结" class="headerlink" title="Qlearning总结"></a>Qlearning总结</h2><p>Qlearning本质上是TD(0)算法，采用网格方式更新Qtable。</p>
+<p>示例代码采noisy-greedy的方法。</p>
+<p>但我们也看到Qlearning算法也有很大的局限性，我们看到，无论现实世界还是游戏世界，很多时候状态都是连续的，像表格这种方式，只能解决状态有限且离散的任务。</p>
+<p>DQN算法应运而生！用深度网络，解决了连续状态的问题。</p>
+<p>最后留给大家一个问题： 我们要从Qlearning改为Sarsa，那么应该怎么改呢？</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Q-Learning/">Q-Learning</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，只作学习笔记和分享交流作用，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/19/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E6%B7%B1%E5%BA%A6%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">强化学习（六）深度强化学习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/16/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%9B%9B%EF%BC%89%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86TD%E6%B3%95%E8%AE%A1%E7%AE%97V%E5%80%BC/">
+                        <span class="hidden-mobile">强化学习（四）时序差分TD法计算V值</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"cTKjlyyUHtaSnlWTUahyiu2y-gzGzoHsz","appKey":"aNtyxf95epQJYLQAkuHkbd6K","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="https://tva1.sinaimg.cn/large/008i3skNly1gv1h4ngfimj60hm0hkmyf02.jpg" srcset="/img/loading.gif" lazyload title="打赏一下！" class="rounded mx-auto d-block mt-5" style="width:150px; height:150px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> <a href="http://www.xiaojiucai.cn" target="_blank" rel="nofollow noopener"><span>一棵小韭菜</span></a> <i class="iconfont icon-love"></i> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
