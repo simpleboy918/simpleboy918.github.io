@@ -30,7 +30,7 @@
 <meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/16/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86PIL/008i3skNly1gvl43twbmqj60n80rstbf02.jpg">
 <meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/16/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86PIL/008i3skNly1gvl4fid28kj60n80rsn1b02.jpg">
 <meta property="article:published_time" content="2021-10-16T01:36:16.000Z">
-<meta property="article:modified_time" content="2021-10-19T17:14:52.308Z">
+<meta property="article:modified_time" content="2021-10-23T16:13:54.301Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="PIL">
 <meta name="twitter:card" content="summary_large_image">
@@ -203,7 +203,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.5k 字
+      3.7k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8 分钟
+      12 分钟
     </span>
   
 
@@ -245,7 +245,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：4 天前
+                  本文最后更新于：2 分钟前
                 
               </p>
             
@@ -314,7 +314,21 @@
 <p><img src="/2021/10/16/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86PIL/008i3skNly1gvl4fid28kj60n80rsn1b02.jpg" srcset="/img/loading.gif" lazyload></p>
 <p><code>ImageEnhance.Brightness(img)</code>:调整图像img的亮度</p>
 <p><code>ImageEnhance.Sharpness(img)</code>:调整图像img的锐度</p>
-<h2 id="图像的字符串绘制"><a href="#图像的字符串绘制" class="headerlink" title="图像的字符串绘制"></a>图像的字符串绘制</h2>
+<h2 id="图像的字符串绘制"><a href="#图像的字符串绘制" class="headerlink" title="图像的字符串绘制"></a>图像的字符串绘制</h2><p>位图图片是由不同颜色的像素点组成的规则分布，如果采用字符串代替像素点，图像就成了字符画。</p>
+<h3 id="1-定义字符集"><a href="#1-定义字符集" class="headerlink" title="1. 定义字符集"></a>1. 定义字符集</h3><p>定义一个字符集代替图像的像素点，使得每个字符对应图像中的不同颜色。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">ascii_char = <span class="hljs-built_in">list</span>(<span class="hljs-string">&quot;$@B%8&amp;WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1&#123;&#125;[]?-_+~&lt;&gt;i!lI;:,\&quot;^`&#x27;. &quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-灰度转换公式"><a href="#2-灰度转换公式" class="headerlink" title="2. 灰度转换公式"></a>2. 灰度转换公式</h3><p>图像的色彩无法被黑白的ASCII码直接模拟，可以使用灰度值将彩色图像转换为高质量的黑白文稿。</p>
+<p>灰度值是指黑白图像中的颜色深度，白色为255，黑色为0。这里定义灰度值从大到小依次使用字符集中从左到右的符号，转换公式如下：</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs tex">Gray = R * 0.2126 + G * 0.7152 + B * 0.0722<br></code></pre></td></tr></table></figure>
+
+<p>R、G、B分别是像素点中RGB的值，转换函数如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_char</span>(<span class="hljs-params">r,b,g,alpha = <span class="hljs-number">256</span></span>):</span><br>    <span class="hljs-keyword">if</span> alpha == <span class="hljs-number">0</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot; &quot;</span><br>    gray = <span class="hljs-built_in">int</span>(r * <span class="hljs-number">0.2126</span> + g * <span class="hljs-number">0.7152</span> + b * <span class="hljs-number">0.0722</span>)<br>    unit = <span class="hljs-number">256</span> / <span class="hljs-built_in">len</span>(ascii_char)<br>    <span class="hljs-keyword">return</span> ascii_char[gray//unit]<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-转换案例"><a href="#3-转换案例" class="headerlink" title="3. 转换案例"></a>3. 转换案例</h3><p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image<br>ascii_char = <span class="hljs-built_in">list</span>(<span class="hljs-string">&quot;$@B%8&amp;WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1&#123;&#125;[]?-_+~&lt;&gt;i!lI;:,\&quot;^`&#x27;. &quot;</span>)<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_char</span>(<span class="hljs-params">r,b,g,alpha = <span class="hljs-number">256</span></span>):</span><br>    <span class="hljs-keyword">if</span> alpha == <span class="hljs-number">0</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot; &quot;</span><br>    gray = <span class="hljs-built_in">int</span>(r * <span class="hljs-number">0.2126</span> + g * <span class="hljs-number">0.7152</span> + b * <span class="hljs-number">0.0722</span>)<br>    unit = <span class="hljs-number">256</span> / <span class="hljs-built_in">len</span>(ascii_char)<br>    <span class="hljs-keyword">return</span> ascii_char[<span class="hljs-built_in">int</span>(gray//unit)]<br>  <br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>():</span><br>    img = Image.<span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;./milk.jpg&quot;</span><span class="hljs-string">&quot;)</span><br><span class="hljs-string">    width,height = 100,60</span><br><span class="hljs-string">    img = img.resize((width,height))</span><br><span class="hljs-string">    txt = &quot;</span><span class="hljs-string">&quot;</span><br><span class="hljs-string">    for i in range(height):</span><br><span class="hljs-string">        for j in range(width):</span><br><span class="hljs-string">            txt += get_char(*img.getpixel((j,i)))</span><br><span class="hljs-string">        txt += &quot;</span>\n<span class="hljs-string">&quot;</span><br><span class="hljs-string">    fp = open(&#x27;pic_char.txt&#x27;,&#x27;w&#x27;)</span><br><span class="hljs-string">    fp.write(txt)</span><br><span class="hljs-string">    fp.close()</span><br><span class="hljs-string"></span><br><span class="hljs-string">main()              </span><br></code></pre></td></tr></table></figure>
+
+
             </div>
             <hr>
             <div>
