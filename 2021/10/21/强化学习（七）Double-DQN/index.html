@@ -1,0 +1,625 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="在这一节，我们将用CartPole-v0作为环境做试验，并介绍DQN的训练的技巧和DQN其中一个最重要的变种DQN：Double DQN。">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <meta name="description" content="在这一节，我们将用CartPole-v0作为环境做试验，并介绍DQN的训练的技巧和DQN其中一个最重要的变种DQN：Double DQN。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强化学习（七）Double DQN">
+<meta property="og:url" content="http://www.xiaojiucai.cn/2021/10/21/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89Double-DQN/index.html">
+<meta property="og:site_name" content="小韭菜">
+<meta property="og:description" content="在这一节，我们将用CartPole-v0作为环境做试验，并介绍DQN的训练的技巧和DQN其中一个最重要的变种DQN：Double DQN。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/21/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89Double-DQN/008i3skNly1gvn5bh3y9cj60d808qweb02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/21/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89Double-DQN/008i3skNly1gvn5yi2qlrj60lx0bejru02.jpg">
+<meta property="og:image" content="http://www.xiaojiucai.cn/2021/10/21/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89Double-DQN/008i3skNly1gvn7ecebhwj606i0380sr02.jpg">
+<meta property="article:published_time" content="2021-10-21T06:59:33.000Z">
+<meta property="article:modified_time" content="2021-10-21T12:30:08.194Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Double DQN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://www.xiaojiucai.cn/2021/10/21/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89Double-DQN/008i3skNly1gvn5bh3y9cj60d808qweb02.jpg">
+  
+  <title>强化学习（七）Double DQN - 小韭菜</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"www.xiaojiucai.cn","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":120,"cursorChar":"|","loop":true},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小韭菜</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                时光轴
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="强化学习（七）Double DQN">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-21 14:59" pubdate>
+        2021年10月21日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">强化学习（七）Double DQN</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：2 天前
+                
+              </p>
+            
+            <div class="markdown-body">
+              <p>在这一节，我们将用CartPole-v0作为环境做试验，并介绍DQN的训练的技巧和DQN其中一个最重要的变种DQN：Double DQN。</p>
+<span id="more"></span>
+
+<p>在上一章，我们虽然我们用上了DQN，希望解决连续状态空间的问题，但我们的环境仍然是用FrozenLake-v0。</p>
+<p>虽然证明了我们可以深度神经网络的方式，但多少有点英雄无用武之地的感觉。 在这一节，我们将用CartPole-v0作为环境做试验，并介绍DQN的训练的技巧和DQN其中一个最重要的变种DQN：Double DQN。</p>
+<h2 id="CartPole-v0说明"><a href="#CartPole-v0说明" class="headerlink" title="CartPole-v0说明"></a>CartPole-v0说明</h2><p>在介绍算法之前，我们先了解一下CartPole这个游戏的特点。</p>
+<p><img src="/2021/10/21/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89Double-DQN/008i3skNly1gvn5bh3y9cj60d808qweb02.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>CartPole-v0游戏有一个车子，车子上面立一支杆。智能体的任务是，让车子必须左右移动来保持车上的杆保持竖直。如果杆子倾斜超过12度，则游戏结束。</p>
+<p>每坚持一帧，智能体能获得 1 reward，如果能获得200reward，那么游戏结束。如果杆子掉下来，游戏失败。继续下一轮游戏。</p>
+<p>我们之前说过，CartPole的状态是连续型的状态，所以我们可以用几个状态特征来表示。</p>
+<p>状态特征： </p>
+<ul>
+<li>- 车子位置：[-2.4,2.4] </li>
+<li>- 车子速度：[-Inf,Inf] </li>
+<li>- 杆子角度：[-41.8,41.8] </li>
+<li>- 杆子（顶端）速度：[-Inf,Inf]</li>
+</ul>
+<p>智能体可以决定做两个动作： </p>
+<ul>
+<li>- 0： 把车子往左拉 </li>
+<li>- 1： 把车子往右拉</li>
+</ul>
+<p>Reward：除最终最终状态外，所有状态都能获得1reward</p>
+<p>最终状态条件： </p>
+<ol>
+<li>杆子角度&gt;= ±12° </li>
+<li>车子位置&gt;= ±2.4 </li>
+<li>坚持200步</li>
+</ol>
+<p>所以CartPole游戏其实就是让智能体学会玩杂耍，坚持时间越长获得奖励越多。</p>
+<h2 id="经验回放-Experience-replay"><a href="#经验回放-Experience-replay" class="headerlink" title="经验回放(Experience replay)"></a>经验回放(Experience replay)</h2><p>在强化学习中，有一个问题始终绕不过。训练网络数据采集总是太慢。</p>
+<p>当然这个慢是对比网络训练的速度。在强化学习中，网络训练经过GPU的加速，比起游戏来是快很多的。所以训练的瓶颈一般在<strong>智能体跟环境互动</strong>的过程中。</p>
+<p>如果我们能把互动过程中的数据，都存起来，当数据足够多的时候，再训练网络，那么就快很多了。</p>
+<p>**经验回放(Experience replay)**就是实现这样的过程:</p>
+<p>我们把每一步的s，选择的a，进入新的状态s’，获得的奖励r，新状态是否为终止状态。我们把数据都全部存在一个叫<strong>回放缓存</strong>的地方(replay buffer)。</p>
+<p>当智能体与环境互动期间，就会不断产生这样一条一条数据。 数据1： 数据2： 数据3： ….</p>
+<p>当数据量足够，例如<strong>达到我们设定一个batch的大小</strong>，我们便从中抽出一个batch大小的数据，把这笔数据一起放入网络进行训练。</p>
+<p>训练之后我们继续进行游戏，继续把新产生的数据添加到<strong>回放缓存</strong>里…</p>
+<p>就这样，我们每次都随机抽出一个batch大小的数据训练智能体。这样，以前产生的数据同样也能用来训练数据了, 效率自然更高。</p>
+<p>使用经验回放除了使训练更高效，同时也减少了训练产生的过度拟合的问题。</p>
+<p><strong>过度拟合</strong>，放到人身上就是过度依赖局部经验了。</p>
+<p>就像孩子发现爸爸有胡子，就认为所有男人都有胡子一样。</p>
+<p>同样，在有监督学习中，如果只给模型看少量的几张图，并且告诉模型这是猫。这样模型就只会从这几张图学习到猫的特点，而更多的猫模型可能就不认得了。我们说这就是过度拟合造成的，导致模型不够健壮。</p>
+<p>所以健壮的模型，和人一样，见识丰富了就不会落入局部经验的圈套了。</p>
+<p>经验回放具体的做法有很多，将会在稍后的示例代码中展示其中一种。</p>
+<h2 id="固定Q目标-Fixed-Q-targets"><a href="#固定Q目标-Fixed-Q-targets" class="headerlink" title="固定Q目标(Fixed Q-targets)"></a>固定Q目标(Fixed Q-targets)</h2><p>也许在上一篇DQN的介绍中，有同学已经会有这样一个疑问。</p>
+<p>DQN的目标: <strong>gamma * maxQ(s’) + r</strong></p>
+<p>目标本身就包含一个Q网络，这样没有问题吗？</p>
+<p>理论上是没有问题的，但，这样会造成Q网络的学习效率比较低，而且不稳定。</p>
+<p>如果<strong>把训练神经网络比喻成射击游戏</strong>，在target中有Q网络的话，就相当于在射击一个移动靶，因为每次射击一次，靶就会挪动一次。相比起固定的靶，无疑加上了训练的难度。</p>
+<p>那怎么解决这个问题呢？既然现在是移动靶，那么我们就把它弄成是固定的靶，先停止10秒。10秒后挪动靶再打新的靶。这就是Fixed Q-targets的思路。</p>
+<p><img src="/2021/10/21/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89Double-DQN/008i3skNly1gvn5yi2qlrj60lx0bejru02.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>在实做的时候，其实和原来的DQN一样，唯一不同点是，我们用两个Q网络：</p>
+<p>一个是原来的Q网络，用于估算Q(s);</p>
+<p>另外一个叫targetQ网络, targetQ自己并不会更新，也就是它在更新的过程中是固定的，用于计算更新目标。</p>
+<p>y = r + gamma * max(targetQ(s’))</p>
+<p>我们进行N次更新后，就把新Q的参数赋值给旧Q。</p>
+<p>同学们可以试试，利用以上来个技术来优化自己的程序。如果有难度，也先别着急。在下面的doubleDQN的示例代码中，用上以上两个技术。DoubleDQN和DQN的差别很小，其中的差别我也会提出来让大家对比。</p>
+<h2 id="Double-DQN"><a href="#Double-DQN" class="headerlink" title="Double DQN"></a>Double DQN</h2><p>DQN有一个显著的问题，就是DQN估计的Q值往往会偏大。这是由于我们Q值是以下一个s’的Q值的最大值来估算的，但下一个state的Q值也是一个估算值，也依赖它的下一个state的Q值…，这就导致了Q值往往会有偏大的的情况出现。</p>
+<p>我们从同一个s’进行试探性出发，计算某个动作的Q值。然后和DQN的记过进行比较就可以得出上述结论。</p>
+<p>这种欺上瞒下的做法，实在令人恼火。于是有人想到一个互相监察的想法。</p>
+<p>这个思路也很直观。如果只有一个Q网络，它不是经常吹牛嘛。那我就用两个Q网络，因为两个Q网络的参数有差别，所以对于同一个动作的评估也会有少许不同。我们选取评估出来较小的值来计算目标。这样就能避免Q网络吹牛的情况发生了。</p>
+<p>另外一种做法也需要用到两个Q网络。Q1网络<strong>推荐</strong>能够获得最大Q值的动作；Q2网络计算这个动作在Q2网络中的Q值。</p>
+<p>恰好，如果我们用上Fixed Q-targets，我们不就是有两个Q网络了吗？</p>
+<p>所以你可以看到，这个优化在DQN上很容易实现。这就是doubleDQN和DQN的唯一的变化。</p>
+<p>具体的实现，请看代码分析。（ 由于tensorflow提供的示例代码对于新手来说有点复杂，我另外写了一个代码以供说明。）</p>
+<h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h3><p>流程： 如果已经熟悉了之前DQN的代码，那么我们主流程就很容易明白了。我们现在主要关注 Experience replay。</p>
+<p>我把不相关的代码隐藏掉，如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">train</span>(<span class="hljs-params">self,episode</span>):</span><br>        ...<br>        <span class="hljs-keyword">for</span> ep <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(episode):   <span class="hljs-comment">#1</span><br>            s = self.env.reset()<br>            ...<br>            <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>                a = self.get_action(s)    <span class="hljs-comment">#2</span><br>                s_,r,done,_ = self.env.step(a)  <span class="hljs-comment">#3</span><br>                self.remember(s, a, s_, r, done)   <span class="hljs-comment">#4</span><br>                s = s_<br>                <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(self.memory)&gt;self.batch:<br>                    loss = self.update_Q_network()   <span class="hljs-comment">#5</span><br>                    ....<br>                    <span class="hljs-keyword">if</span> (step+<span class="hljs-number">1</span>)%<span class="hljs-number">5</span> == <span class="hljs-number">0</span>:             <span class="hljs-comment">#6</span><br>                        self.update_epsilon()<br>                        self.update_target_Q()<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>我们开始一次游戏，用self.env.reset()把状态设置成初始状态。</li>
+<li>把代入get_action函数，获得action。get_action函数采用epsilon-greedy方法，在之前已经讲述过，这里就不再赘述。</li>
+<li>把action代入环境，获得下一个状态s_,奖励r，结束标记done，和info（由于我们没有用到相关的info，所以我们用_,忽略掉）</li>
+<li>我们用 self.remember(s, a, s_, r, done)， 把这个过程都记录到self.memory</li>
+<li>如果我们的记录足够，那么我们我们就进行更新。</li>
+<li>我们设置一个间隔，每更新5步，就更新target_Q，并更新epsilon</li>
+</ol>
+<p>从上面我们可以看成，doubleDQN其实和DQN的流程没什么不同，不过我们加上了一步，把智能体和环境互动产生的数据remember下来，用于经验回放。</p>
+<p>那具体怎样把数据保存起来呢？我们可以看一下。</p>
+<p>首先，保存我们先得有容器。容器的选择有很多，通常是列表。在示例代码中用了双端deque，因为<strong>它的数据结构能够快速随机访问其中任何一个元素，利于我们随机获取其中的数据用于更新</strong>。</p>
+<p>我们把deque最大值为2000，当我们插入元素超过最大值，那么就会删除最初插入的元素。这个过程deque自动进行，不需要我们手动管理，非常方便。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> deque<br>...<br>self.memory = deque(maxlen=<span class="hljs-number">2000</span>) <br></code></pre></td></tr></table></figure>
+
+<p>准备工作我们已经完成了，我们看remember函数，我们把需要存储的数据s, a, s_, r, done传入，我们先用data把数据打包成一个元组，memory.append(data)，插入到队列中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">remember</span>(<span class="hljs-params">self, s, a, s_, r, done</span>):</span><br>    data = (s, a, s_, r, done)<br>    self.memory.append(data)<br></code></pre></td></tr></table></figure>
+
+<p>整个结构如下图：</p>
+<p><img src="/2021/10/21/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89Double-DQN/008i3skNly1gvn7ecebhwj606i0380sr02.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>现在我们每次有state转换，都会被存储到memory这个队列中。当数据足够，例如大于batchsize，那么我们就从队列中，随机抽取batchsize个data，用于更新。</p>
+<p>但buffer是不能直接更新的，需要最好先整理更新目标。我们看process_data前半段代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">process_data</span>(<span class="hljs-params">self</span>):</span><br>    data = random.sample(self.memory, self.batch)<br>    s = np.array([d[<span class="hljs-number">0</span>] <span class="hljs-keyword">for</span> d <span class="hljs-keyword">in</span> data])<br>    a = [d[<span class="hljs-number">1</span>] <span class="hljs-keyword">for</span> d <span class="hljs-keyword">in</span> data]<br>    s_ = np.array([d[<span class="hljs-number">2</span>] <span class="hljs-keyword">for</span> d <span class="hljs-keyword">in</span> data])<br>    r = [d[<span class="hljs-number">3</span>] <span class="hljs-keyword">for</span> d <span class="hljs-keyword">in</span> data]<br>    done = [d[<span class="hljs-number">4</span>] <span class="hljs-keyword">for</span> d <span class="hljs-keyword">in</span> data]<br></code></pre></td></tr></table></figure>
+
+<p>关注两点： </p>
+<p>\1. random.sample(self.memory, self.batch) random.sample，就是从队列中，随机抽出一定个数的数据。 例如抽取了红色部分的数据，这些新数据组成data，这部分数据就是用于这一次更新。</p>
+<p>\2. 用[d[0] for d in data]形式处理data。 我们构造一个循环，来访问data里面的一列数据。所以这里的d，其实相当于在memory函数里面的data，也就是每一步产出数据构成的元组。我们用d[0]，表示这个元组的第一个元素，也就是s。外面用中括号括起来，表示把这些数据构成一个数组。</p>
+<p>这里s和s_是需要输入到神经网络的，所以我们把数组，变成array。</p>
+<p>下面就是我们这一篇的重点：如何用双Q网络更新和计算target。</p>
+<p>在代码中，我们使用两个网络：</p>
+<ul>
+<li>Q_network用于训练更新。</li>
+<li>target_Q_network 是固定网络，用于计算target。</li>
+</ul>
+<p><em>注意: 如果用到了tensorlayer，建立网络后，这个网络是否用于训练，我们需要用一行代码说明，否则将会报错。例如</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">self.Q_network = self.get_model()<br>self.Q_network.train()    <span class="hljs-comment"># 这个网络是可以训练的。</span><br>self.target_Q_network = self.get_model()<br>self.target_Q_network.<span class="hljs-built_in">eval</span>()  <span class="hljs-comment"># 这个网络是不可以训练的。</span><br></code></pre></td></tr></table></figure>
+
+<p>经过一定的episode之后，再把Q_network的的参数，赋值给target_Q_network。</p>
+<p>在赋值的时候，我们可以通过一个循环，逐个用assign()函数对模型的参数进行赋值。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Double-DQN/">Double DQN</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，只作学习笔记和分享交流作用，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/23/argparse%E6%A8%A1%E5%9D%97/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">argparse模块</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/20/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                        <span class="hidden-mobile">深度学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"cTKjlyyUHtaSnlWTUahyiu2y-gzGzoHsz","appKey":"aNtyxf95epQJYLQAkuHkbd6K","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="https://tva1.sinaimg.cn/large/008i3skNly1gv1h4ngfimj60hm0hkmyf02.jpg" srcset="/img/loading.gif" lazyload title="打赏一下！" class="rounded mx-auto d-block mt-5" style="width:150px; height:150px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> <a href="http://www.xiaojiucai.cn" target="_blank" rel="nofollow noopener"><span>一棵小韭菜</span></a> <i class="iconfont icon-love"></i> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
